@@ -15,27 +15,21 @@ firebase.auth().signInAnonymously()
 // CREATE a new woof in Firebase
 function createWoofInDatabase (woof) {
   // TODO create a new record in Firebase
-  var woofText = woof.text
-  console.log("created",woof.text)
-  var timestamp = new Date().getTime()
-  firebase.database().ref('woof').push({
-    created_at: timestamp,
-    text: woofText
-  })
+  firebase.database().ref('woof').push(woof)
 }
 
 // READ from Firebase when woofs are added, changed, or removed
 // Call addWoofRow, updateWoofRow, and deleteWoofRow to update the page
 function readWoofsInDatabase () {
   // TODO read new, changed, and deleted Firebase records
-  firebase.database().ref('woof').on('child_added', function(woof){
-    addWoofRow(woof.key,woof)
+  firebase.database().ref('woof').on('child_added', function(woofsnapshot){
+    addWoofRow(woofsnapshot.key,woofsnapshot.val())
   })
-  firebase.database().ref('woof').on('child_changed', function(woof){
-    updateWoofRow(woof.key,woof)
+  firebase.database().ref('woof').on('child_changed', function(woofsnapshot){
+    updateWoofRow(woofsnapshot.key,woofsnapshot.val())
   })
-  firebase.database().ref('woof').on('child_removed', function(woof){
-    deleteWoofRow(woof.key)
+  firebase.database().ref('woof').on('child_removed', function(woofsnapshot){
+    deleteWoofRow(woofsnapshot.key)
   })
 }
 
