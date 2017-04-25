@@ -41,7 +41,6 @@ function readWoofsInDatabase () {
 
 // UPDATE the woof in Firebase
 function updateWoofInDatabase (woofKey, woofText) {
-  console.log("update",woofText)
   // TODO update the record in Firebase
   firebase.database().ref('woof').child(woofKey).child('text').set(
     woofText
